@@ -24,7 +24,10 @@ function FanControl() {
     <Card className={classes.item}>
       <CardContent>
         <Box className={classes.iconWrapper}>
-          <IconButton className={checked ? classes.rotatingIcon : ""}>
+          <IconButton
+            className={checked ? classes.rotatingIcon : ""}
+            onClick={() => setChecked(!checked)}
+          >
             <img
               src={FanSvg}
               alt="Fan icon"
@@ -34,13 +37,13 @@ function FanControl() {
         </Box>
 
         <Stack direction="row" alignItems="center" justifyContent="center">
-          <Typography>ON</Typography>
+          <Typography>OFF</Typography>
           <Switch
             checked={checked}
             onChange={handleChange}
             inputProps={{ "aria-label": "controlled" }}
           />
-          <Typography>OFF</Typography>
+          <Typography>ON</Typography>
         </Stack>
       </CardContent>
     </Card>

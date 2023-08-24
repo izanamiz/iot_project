@@ -24,7 +24,7 @@ function LightControl() {
     <Card className={classes.item}>
       <CardContent>
         <Box className={classes.iconWrapper}>
-          <IconButton>
+          <IconButton onClick={() => setChecked(!checked)}>
             <LightbulbIcon
               sx={{ width: 75, height: 75, color: checked ? "yellow" : "#fff" }}
             />
@@ -32,13 +32,13 @@ function LightControl() {
         </Box>
 
         <Stack direction="row" alignItems="center" justifyContent="center">
-          <Typography>ON</Typography>
+          <Typography>OFF</Typography>
           <Switch
             checked={checked}
             onChange={handleChange}
             inputProps={{ "aria-label": "controlled" }}
           />
-          <Typography>OFF</Typography>
+          <Typography>ON</Typography>
         </Stack>
       </CardContent>
     </Card>

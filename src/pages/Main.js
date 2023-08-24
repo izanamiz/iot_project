@@ -12,12 +12,12 @@ const getRandomValue = (min, max) => {
 
 function Main() {
   const [tempList, setTempList] = useState([30]);
-  const [humidList, setHumidList] = useState([80]);
-  const [lightList, setLightList] = useState([100]);
+  const [humidList, setHumidList] = useState([50]);
+  const [lightList, setLightList] = useState([68]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const temp1 = getRandomValue(1, 45);
+      const temp1 = getRandomValue(1, 100);
       setTempList((prev) => [...prev, temp1]);
 
       const humid1 = getRandomValue(1, 100);
@@ -38,7 +38,6 @@ function Main() {
         flexGrow: 1,
       }}
     >
-      <MenuAppBar />
       <Container maxWidth="xl" sx={{ paddingTop: 3 }}>
         <TopNav
           temp={tempList[tempList.length - 1]}
