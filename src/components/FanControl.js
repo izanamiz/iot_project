@@ -9,9 +9,13 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
-import FanSvg from "../assets/fan.svg";
+import FanDarkSvg from "../assets/fanDark.svg";
+import FanLightSvg from "../assets/fanLight.svg";
+import { useTheme } from "@mui/material/styles";
 
 function FanControl() {
+  const theme = useTheme();
+
   const classes = styles();
 
   const [checked, setChecked] = useState(true);
@@ -29,9 +33,9 @@ function FanControl() {
             onClick={() => setChecked(!checked)}
           >
             <img
-              src={FanSvg}
+              src={theme.palette.mode === "dark" ? FanDarkSvg : FanLightSvg}
               alt="Fan icon"
-              style={{ width: 75, height: 75 }}
+              style={{ width: 75, height: 75, color: "red" }}
             />
           </IconButton>
         </Box>

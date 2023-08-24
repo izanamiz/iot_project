@@ -10,8 +10,11 @@ import {
 import React, { useState } from "react";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
 
 function LightControl() {
+  const theme = useTheme();
+
   const classes = styles();
 
   const [checked, setChecked] = useState(true);
@@ -26,7 +29,15 @@ function LightControl() {
         <Box className={classes.iconWrapper}>
           <IconButton onClick={() => setChecked(!checked)}>
             <LightbulbIcon
-              sx={{ width: 75, height: 75, color: checked ? "yellow" : "#fff" }}
+              sx={{
+                width: 75,
+                height: 75,
+                color: checked
+                  ? "yellow"
+                  : theme.palette.mode === "dark"
+                  ? "#fff"
+                  : "#000",
+              }}
             />
           </IconButton>
         </Box>
