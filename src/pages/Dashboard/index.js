@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container, Grid } from "@mui/material";
-import MenuAppBar from "../components/MenuAppBar";
-import TopNav from "../components/TopNav";
-import Chart from "../components/Chart";
-import LightControl from "../components/LightControl";
-import FanControl from "../components/FanControl";
+import Header from "./Header";
+import CustomChart from "./CustomChart";
+import LightControl from "./LightControl";
+import FanControl from "./FanControl";
 
 const getRandomValue = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-function Main() {
+function Dashboard({ setLightControlEvent, setFanControlEvent }) {
   const [tempList, setTempList] = useState([30]);
   const [humidList, setHumidList] = useState([50]);
   const [lightList, setLightList] = useState([68]);
@@ -39,7 +38,7 @@ function Main() {
       }}
     >
       <Container maxWidth="xl" sx={{ paddingTop: 3 }}>
-        <TopNav
+        <Header
           temp={tempList[tempList.length - 1]}
           humid={humidList[humidList.length - 1]}
           light={lightList[lightList.length - 1]}
@@ -48,7 +47,7 @@ function Main() {
         <Grid container spacing={3} sx={{ paddingTop: 3 }}>
           {/* Chart  */}
           <Grid item xs={12} sm={12} md={8} order={{ xs: 2, md: 1 }}>
-            <Chart
+            <CustomChart
               tempList={tempList}
               humidList={humidList}
               lightList={lightList}
@@ -59,11 +58,11 @@ function Main() {
           <Grid item xs={12} sm={12} md={4} order={{ xs: 1, md: 2 }}>
             <Grid container spacing={3}>
               <Grid item xs={6} sm={6} md={12}>
-                <LightControl />
+                <LightControl setLightControlEvent={setLightControlEvent} />
               </Grid>
 
               <Grid item xs={6} sm={6} md={12}>
-                <FanControl />
+                <FanControl setFanControlEvent={setFanControlEvent} />
               </Grid>
             </Grid>
           </Grid>
@@ -73,4 +72,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default Dashboard;

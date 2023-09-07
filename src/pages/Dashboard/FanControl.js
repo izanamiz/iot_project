@@ -9,11 +9,12 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
-import FanDarkSvg from "../assets/fanDark.svg";
-import FanLightSvg from "../assets/fanLight.svg";
+import FanDarkSvg from "../../assets/fanDark.svg";
+import FanLightSvg from "../../assets/fanLight.svg";
 import { useTheme } from "@mui/material/styles";
+import dayjs from "dayjs";
 
-function FanControl() {
+function FanControl({ setFanControlEvent }) {
   const theme = useTheme();
 
   const classes = styles();
@@ -21,6 +22,13 @@ function FanControl() {
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event) => {
+    setFanControlEvent((prev) => [
+      ...prev,
+      {
+        mode: event.target.checked ? "ON" : "OFF",
+        time: dayjs().format("HH:mm:ss DD-MM-YYYY"),
+      },
+    ]);
     setChecked(event.target.checked);
   };
 

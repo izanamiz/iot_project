@@ -11,8 +11,9 @@ import React, { useState } from "react";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
+import dayjs from "dayjs";
 
-function LightControl() {
+function LightControl({ setLightControlEvent }) {
   const theme = useTheme();
 
   const classes = styles();
@@ -20,6 +21,13 @@ function LightControl() {
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event) => {
+    setLightControlEvent((prev) => [
+      ...prev,
+      {
+        mode: event.target.checked ? "ON" : "OFF",
+        time: dayjs().format("HH:mm:ss DD-MM-YYYY"),
+      },
+    ]);
     setChecked(event.target.checked);
   };
 

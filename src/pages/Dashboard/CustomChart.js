@@ -40,7 +40,7 @@ const genData = (tempList, humidList, lightList) => {
     labels,
     datasets: [
       {
-        label: "Temparature",
+        label: "Temperature",
         data: tempList,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -61,7 +61,7 @@ const genData = (tempList, humidList, lightList) => {
   };
 };
 
-function Chart({ tempList, humidList, lightList }) {
+function CustomChart({ tempList, humidList, lightList }) {
   const [data, setData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
@@ -71,4 +71,4 @@ function Chart({ tempList, humidList, lightList }) {
   return data ? <Line options={options} data={data} /> : <></>;
 }
 
-export default Chart;
+export default CustomChart;

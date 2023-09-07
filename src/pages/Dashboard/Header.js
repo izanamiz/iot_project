@@ -2,7 +2,7 @@ import { Card, CardContent, Grid, Typography, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
 
-function TopNav({ temp, humid, light }) {
+function Header({ temp, humid, light }) {
   const classes = styles();
 
   return (
@@ -79,4 +79,4 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default TopNav;
+export default Header;
