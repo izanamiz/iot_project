@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { darkTheme, lightTheme } from "./configs";
 import { Route, Routes } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -20,6 +20,14 @@ function App() {
     { mode: "ON", time: dayjs().format("HH:mm:ss DD-MM-YYYY") },
   ]);
 
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("tempList");
+      localStorage.removeItem("humidList");
+      localStorage.removeItem("lightList");
+    };
+  }, []);
+  
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <CssBaseline />

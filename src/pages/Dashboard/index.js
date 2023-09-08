@@ -10,9 +10,19 @@ const getRandomValue = (min, max) => {
 };
 
 function Dashboard({ setLightControlEvent, setFanControlEvent }) {
-  const [tempList, setTempList] = useState([30]);
-  const [humidList, setHumidList] = useState([50]);
-  const [lightList, setLightList] = useState([68]);
+  const storedTempList = JSON.parse(localStorage.getItem("tempList")) || [30];
+  const storedHumidList = JSON.parse(localStorage.getItem("humidList")) || [50];
+  const storedLightList = JSON.parse(localStorage.getItem("lightList")) || [68];
+
+  const [tempList, setTempList] = useState(storedTempList);
+  const [humidList, setHumidList] = useState(storedHumidList);
+  const [lightList, setLightList] = useState(storedLightList);
+
+  useEffect(() => {
+    setTempList(storedTempList);
+    setHumidList(storedTempList);
+    setLightList(storedLightList);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,6 +34,19 @@ function Dashboard({ setLightControlEvent, setFanControlEvent }) {
 
       const light1 = getRandomValue(1, 100);
       setLightList((prev) => [...prev, light1]);
+
+      localStorage.setItem(
+        "tempList",
+        JSON.stringify([...storedTempList, temp1])
+      );
+      localStorage.setItem(
+        "humidList",
+        JSON.stringify([...storedHumidList, humid1])
+      );
+      localStorage.setItem(
+        "lightList",
+        JSON.stringify([...storedLightList, light1])
+      );
     }, 5000);
 
     return () => {

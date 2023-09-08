@@ -64,9 +64,9 @@ export default function MenuAppBar({ isDarkMode, setIsDarkMode }) {
               {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
             </IconButton>
 
-            <IconButton size="large">
+            {/* <IconButton size="large">
               <AccountCircle />
-            </IconButton>
+            </IconButton> */}
           </Toolbar>
         </Container>
       </AppBar>
