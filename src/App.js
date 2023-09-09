@@ -9,9 +9,20 @@ import Profile from "./pages/Profile";
 import Events from "./pages/Events";
 import LightEvent from "./pages/Events/LightEvent";
 import FanEvent from "./pages/Events/FanEvent";
+import DataSensor from "./pages/DataSensor";
+
 import dayjs from "dayjs";
+import { saveToLocalStorage } from "./utils";
 
 function App() {
+  const storedTempList = JSON.parse(localStorage.getItem("tempList")) || [30];
+  const storedHumidList = JSON.parse(localStorage.getItem("humidList")) || [50];
+  const storedLightList = JSON.parse(localStorage.getItem("lightList")) || [68];
+
+  const [tempList, setTempList] = useState(storedTempList);
+  const [humidList, setHumidList] = useState(storedHumidList);
+  const [lightList, setLightList] = useState(storedLightList);
+
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [lightControlEvent, setLightControlEvent] = useState([
     { mode: "ON", time: dayjs().format("HH:mm:ss DD-MM-YYYY") },
@@ -21,13 +32,17 @@ function App() {
   ]);
 
   useEffect(() => {
+    saveToLocalStorage("tempList", [30, 68, 60]);
+    saveToLocalStorage("humidList", [80, 20, 40]);
+    saveToLocalStorage("lightList", [68, 30, 50]);
+
     return () => {
       localStorage.removeItem("tempList");
       localStorage.removeItem("humidList");
       localStorage.removeItem("lightList");
     };
   }, []);
-  
+
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <CssBaseline />
@@ -40,12 +55,28 @@ function App() {
           path="/"
           element={
             <Dashboard
+              tempList={tempList}
+              humidList={humidList}
+              lightList={lightList}
+              setTempList={setTempList}
+              setHumidList={setHumidList}
+              setLightList={setLightList}
               setLightControlEvent={setLightControlEvent}
               setFanControlEvent={setFanControlEvent}
             />
           }
         />
         <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/data-sensor"
+          element={
+            <DataSensor
+              tempList={tempList}
+              humidList={humidList}
+              lightList={lightList}
+            />
+          }
+        />
         <Route path="/events" element={<Events />}>
           <Route
             path=""

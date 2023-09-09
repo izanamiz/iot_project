@@ -4,25 +4,21 @@ import Header from "./Header";
 import CustomChart from "./CustomChart";
 import LightControl from "./LightControl";
 import FanControl from "./FanControl";
+import { getRandomValue, saveToLocalStorage } from "../../utils";
 
-const getRandomValue = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-function Dashboard({ setLightControlEvent, setFanControlEvent }) {
+function Dashboard({
+  tempList,
+  humidList,
+  lightList,
+  setTempList,
+  setHumidList,
+  setLightList,
+  setLightControlEvent,
+  setFanControlEvent,
+}) {
   const storedTempList = JSON.parse(localStorage.getItem("tempList")) || [30];
   const storedHumidList = JSON.parse(localStorage.getItem("humidList")) || [50];
   const storedLightList = JSON.parse(localStorage.getItem("lightList")) || [68];
-
-  const [tempList, setTempList] = useState(storedTempList);
-  const [humidList, setHumidList] = useState(storedHumidList);
-  const [lightList, setLightList] = useState(storedLightList);
-
-  useEffect(() => {
-    setTempList(storedTempList);
-    setHumidList(storedTempList);
-    setLightList(storedLightList);
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,18 +31,9 @@ function Dashboard({ setLightControlEvent, setFanControlEvent }) {
       const light1 = getRandomValue(1, 100);
       setLightList((prev) => [...prev, light1]);
 
-      localStorage.setItem(
-        "tempList",
-        JSON.stringify([...storedTempList, temp1])
-      );
-      localStorage.setItem(
-        "humidList",
-        JSON.stringify([...storedHumidList, humid1])
-      );
-      localStorage.setItem(
-        "lightList",
-        JSON.stringify([...storedLightList, light1])
-      );
+      saveToLocalStorage("tempList", [...storedTempList, temp1]);
+      saveToLocalStorage("humidList", [...storedHumidList, humid1]);
+      saveToLocalStorage("lightList", [...storedLightList, light1]);
     }, 5000);
 
     return () => {

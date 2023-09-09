@@ -82,6 +82,11 @@ export default function MenuAppBar({ isDarkMode, setIsDarkMode }) {
               { name: "Dashboard", route: "/", iconEle: <DashboardIcon /> },
               { name: "Profile", route: "/profile", iconEle: <PersonIcon /> },
               {
+                name: "Data Sensor",
+                route: "/data-sensor",
+                iconEle: <DashboardIcon />,
+              },
+              {
                 name: "Events",
                 route: "/events",
                 iconEle: <ManageHistoryIcon />,
