@@ -31,10 +31,10 @@ function FanControl() {
 
   useEffect(() => {
     // console.log("fan data: ", fanData)
-    if (fanData) {
+    if (fanData && fanData.length) {
       const { mode } = fanData[fanData.length - 1];
       mode === "on" ? setChecked(true) : setChecked(false);
-    }
+    } else setChecked(false);
   }, []);
 
   const handleChange = useCallback((event) => {

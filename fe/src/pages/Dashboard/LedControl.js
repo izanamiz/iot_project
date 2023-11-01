@@ -31,28 +31,25 @@ function LedControl() {
   useEffect(() => {
     // console.log("led data: ", ledData);
 
-    if (ledData) {
+    if (ledData && ledData.length) {
       const { mode } = ledData[ledData.length - 1];
       mode === "on" ? setChecked(true) : setChecked(false);
-    }
+    } else setChecked(false);
   }, []);
 
-  const handleChange = useCallback(
-    async (event) => {
-      setChecked(event.target.checked);
-      publishToTopic(client, LED_TOPIC, event.target.checked ? "on" : "off");
+  const handleChange = useCallback(async (event) => {
+    setChecked(event.target.checked);
+    publishToTopic(client, LED_TOPIC, event.target.checked ? "on" : "off");
 
-      await addNewActionData({
-        device: "led",
-        mode: event.target.checked ? "on" : "off",
-        time: dayjs().format("YYYY-MM-DDTHH:mm:ssZ"),
-      });
-      await getLedActionData().then((data) => {
-        data && mutateLedData(data);
-      });
-    },
-    []
-  );
+    await addNewActionData({
+      device: "led",
+      mode: event.target.checked ? "on" : "off",
+      time: dayjs().format("YYYY-MM-DDTHH:mm:ssZ"),
+    });
+    await getLedActionData().then((data) => {
+      data && mutateLedData(data);
+    });
+  }, []);
 
   return (
     <Card className={classes.item}>
