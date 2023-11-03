@@ -37,18 +37,19 @@ function FanControl() {
     } else setChecked(false);
   }, []);
 
-  const handleChange = useCallback((event) => {
+  const handleChange = useCallback(async (event) => {
+    setChecked(event.target.checked);
+
     publishToTopic(client, FAN_TOPIC, event.target.checked ? "on" : "off");
     addNewActionData({
       device: "fan",
       mode: event.target.checked ? "on" : "off",
       time: dayjs().format("YYYY-MM-DDTHH:mm:ssZ"),
     });
-    getFanActionData().then((data) => {
+    await getFanActionData().then((data) => {
+      console.log("data",data);
       data && mutateFanData(data);
     });
-
-    setChecked(event.target.checked);
   }, []);
 
   return (

@@ -47,6 +47,7 @@ function LedControl() {
       time: dayjs().format("YYYY-MM-DDTHH:mm:ssZ"),
     });
     await getLedActionData().then((data) => {
+      console.log("data", data);
       data && mutateLedData(data);
     });
   }, []);
