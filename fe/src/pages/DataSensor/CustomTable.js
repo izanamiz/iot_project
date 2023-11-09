@@ -109,9 +109,11 @@ export default function CustomTable({ data }) {
   };
 
   const handleSortChange = () => {
-    const sortedData = sortedArr(data);
+    if (data && data.length) {
+      const sortedData = sortedArr(data, hoveredColumn);
+      setRows(sortedData);
+    }
 
-    setRows(sortedData, hoveredColumn);
     setSortDirection((prevDirection) =>
       prevDirection === "asc" ? "desc" : "asc"
     );

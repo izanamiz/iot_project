@@ -80,8 +80,11 @@ export default function CustomTable({ data }) {
   };
 
   const handleSortChange = () => {
-    const sortedData = sortedArr(data, hoveredColumn);
-    setRows(sortedData);
+    if (data && data.length) {
+      const sortedData = sortedArr(data, hoveredColumn);
+      setRows(sortedData);
+    }
+
     setSortDirection((prevDirection) =>
       prevDirection === "asc" ? "desc" : "asc"
     );
