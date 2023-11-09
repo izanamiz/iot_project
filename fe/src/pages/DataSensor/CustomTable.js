@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -11,6 +12,8 @@ import {
 } from "@mui/material";
 import { formatTime } from "../../utils";
 import NoData from "../../components/NoData";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 const columns = [
   { id: "id", label: "ID", minWidth: 100 },
@@ -43,7 +46,7 @@ const columns = [
 
 const createRowsData = (data) => {
   const rows = data.map((val, idx) => {
-    const time = formatTime(val?.time) || " ";
+    const time = val?.time ? formatTime(val?.time) : " ";
     return { ...val, time: time };
   });
   return rows;
@@ -53,14 +56,68 @@ export default function CustomTable({ data }) {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [hoveredColumn, setHoveredColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [currColumn, setCurrColumn] = useState(null);
 
   useEffect(() => {
-    console.log("data:", data);
     if (data && data.length) {
-      const res = createRowsData(data);
+      let res = createRowsData(data);
+      res = currColumn ? sortedArr(res, currColumn) : res;
       setRows(res);
     }
-  }, [data]);
+  }, [data, currColumn, sortDirection, hoveredColumn]);
+
+  const handleMouseEnter = (columnId) => {
+    setHoveredColumn(columnId);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredColumn(null);
+  };
+
+  const sortedArr = (data, column) => {
+    const dataCopy = [...data];
+
+    const sortedData =
+      column === "time"
+        ? dataCopy.sort((a, b) =>
+            sortDirection === "asc"
+              ? new Date(a.time) - new Date(b.time)
+              : new Date(b.time) - new Date(a.time)
+          )
+        : column === "temperature"
+        ? dataCopy.sort((a, b) =>
+            sortDirection === "asc"
+              ? a.temperature - b.temperature
+              : b.temperature - a.temperature
+          )
+        : column === "humidity"
+        ? dataCopy.sort((a, b) =>
+            sortDirection === "asc"
+              ? a.humidity - b.humidity
+              : b.humidity - a.humidity
+          )
+        : column === "light"
+        ? dataCopy.sort((a, b) =>
+            sortDirection === "asc" ? a.light - b.light : b.light - a.light
+          )
+        : dataCopy.sort((a, b) =>
+            sortDirection === "asc" ? a.id - b.id : b.id - a.id
+          );
+    return sortedData;
+  };
+
+  const handleSortChange = () => {
+    const sortedData = sortedArr(data);
+
+    setRows(sortedData, hoveredColumn);
+    setSortDirection((prevDirection) =>
+      prevDirection === "asc" ? "desc" : "asc"
+    );
+
+    setCurrColumn(hoveredColumn);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -81,14 +138,32 @@ export default function CustomTable({ data }) {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, width: column.width }}
+                  style={{
+                    minWidth: column.minWidth,
+                    width: column.width,
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={() => handleMouseEnter(column.id)}
+                  onMouseLeave={handleMouseLeave}
                 >
                   {column.label}
+                  {(hoveredColumn === column.id ||
+                    currColumn === column.id) && (
+                    <>
+                      <IconButton size="small" onClick={handleSortChange}>
+                        {sortDirection === "asc" ? (
+                          <ArrowUpwardIcon />
+                        ) : (
+                          <ArrowDownwardIcon />
+                        )}
+                      </IconButton>
+                    </>
+                  )}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
-          {data && data.length ? (
+          {data && data.length && data[0] ? (
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

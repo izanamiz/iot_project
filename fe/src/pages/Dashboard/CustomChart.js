@@ -58,9 +58,12 @@ const genData = (val) => {
   const tempList = data.map((val) => val.temperature);
   const humidList = data.map((val) => val.humidity);
   const lightList = data.map((val) => val.light);
+
   const timeList = data.map((val) => {
-    const res = formatTime(val?.time)?.split(" ");
-    return res[1].slice(0, 8) || " ";
+    const res = val?.time
+      ? formatTime(val?.time)?.split(" ")[1].slice(0, 8)
+      : " ";
+    return res;
   });
 
   const labels = timeList;
@@ -92,8 +95,7 @@ const genData = (val) => {
 
 function CustomChart() {
   const { data: sensorData } = useSWR(SENSOR_DATA_KEY);
-
-  return sensorData ? (
+  return sensorData && sensorData.length && sensorData[0] ? (
     <Line options={options} data={genData(sensorData)} />
   ) : (
     <></>
