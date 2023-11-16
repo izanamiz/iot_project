@@ -46,7 +46,7 @@ const columns = [
 
 const createRowsData = (data) => {
   const rows = data.map((val, idx) => {
-    const time = val?.time ? formatTime(val?.time) : " ";
+    const time = val?.time ? formatTime(val?.time).slice(0, 19) : " ";
     return { ...val, time: time };
   });
   return rows;

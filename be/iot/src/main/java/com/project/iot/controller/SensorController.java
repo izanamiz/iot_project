@@ -1,5 +1,6 @@
 package com.project.iot.controller;
 
+import com.project.iot.entity.Action;
 import com.project.iot.entity.Sensor;
 import com.project.iot.service.SensorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class SensorController {
     }
 
     @PostMapping
-    public Sensor createNewBook(@RequestBody Sensor newSensor) {
+    public Sensor createNewSensor(@RequestBody Sensor newSensor) {
         return sensorService.createNewSensor(newSensor);
     }
 }

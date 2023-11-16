@@ -44,10 +44,11 @@ function FanControl() {
     addNewActionData({
       device: "fan",
       mode: event.target.checked ? "on" : "off",
-      time: dayjs().format("YYYY-MM-DDTHH:mm:ssZ"),
+      time: dayjs().format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
     });
+
     await getFanActionData().then((data) => {
-      console.log("data",data);
+      console.log("data", data);
       data && mutateFanData(data);
     });
   }, []);

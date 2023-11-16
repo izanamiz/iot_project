@@ -63,7 +63,7 @@ function App() {
           const data = JSON.parse(message);
           addNewSensorData({
             ...data,
-            time: dayjs().format("YYYY-MM-DDTHH:mm:ssZ"),
+            time: dayjs().format("YYYY-MM-DDTHH:mm:ss.SSSZ")
           });
           getSensorData().then((data) => {
             data && mutateSensorData(data);

@@ -44,8 +44,9 @@ function LedControl() {
     await addNewActionData({
       device: "led",
       mode: event.target.checked ? "on" : "off",
-      time: dayjs().format("YYYY-MM-DDTHH:mm:ssZ"),
+      time: dayjs().format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
     });
+
     await getLedActionData().then((data) => {
       console.log("data", data);
       data && mutateLedData(data);
